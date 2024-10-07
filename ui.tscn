@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://do2e3k5xt8ao5"]
+
+[ext_resource type="Script" path="res://ui.gd" id="1_38dy5"]
+
+[sub_resource type="Theme" id="Theme_ijets"]
+
+[sub_resource type="SystemFont" id="SystemFont_x578f"]
+subpixel_positioning = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_ii0ye"]
+
+[node name="UI" type="Node2D"]
+script = ExtResource("1_38dy5")
+
+[node name="Lives" type="Label" parent="."]
+offset_left = -1.0
+offset_top = 3.0
+offset_right = 39.0
+offset_bottom = 26.0
+theme = SubResource("Theme_ijets")
+theme_override_fonts/font = SubResource("SystemFont_x578f")
+theme_override_font_sizes/font_size = 60
+text = "lives"
+label_settings = SubResource("LabelSettings_ii0ye")

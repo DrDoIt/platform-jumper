@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://08h728at06ps"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ts1fb"]
+size = Vector2(10, 10)
+
+[node name="Lava" type="Area2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(136.967, 9.55694)
+scale = Vector2(27.3934, 1.89485)
+shape = SubResource("RectangleShape2D_ts1fb")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(6.84, 0.48)
+color = Color(1, 0, 0, 1)

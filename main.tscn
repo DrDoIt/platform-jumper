@@ -1,0 +1,88 @@
+[gd_scene load_steps=8 format=3 uid="uid://s4ofifc7f1ba"]
+
+[ext_resource type="PackedScene" uid="uid://cllgkinc37fe2" path="res://platform.tscn" id="1_f26cr"]
+[ext_resource type="PackedScene" uid="uid://p763xirwladb" path="res://player.tscn" id="1_olfst"]
+[ext_resource type="Script" path="res://main.gd" id="1_tvn80"]
+[ext_resource type="PackedScene" uid="uid://bgjai3kj4qu8d" path="res://movingPlatform.tscn" id="2_3smlm"]
+[ext_resource type="PackedScene" uid="uid://ck4csmjiaui7o" path="res://oneWayPlatform.tscn" id="4_m6ies"]
+[ext_resource type="PackedScene" uid="uid://08h728at06ps" path="res://lava.tscn" id="6_ke4r5"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_b0inm"]
+distance = -123.0
+
+[node name="Main" type="Node"]
+script = ExtResource("1_tvn80")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = 4.0
+offset_top = 5.0
+offset_right = 3361.0
+offset_bottom = 1133.0
+scale = Vector2(2.08, 1)
+color = Color(0.803922, 0.815686, 0, 0.894118)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, 489)
+
+[node name="ColorRect" type="ColorRect" parent="StaticBody2D"]
+offset_left = 3.0
+offset_top = 549.0
+offset_right = 3359.0
+offset_bottom = 644.0
+scale = Vector2(2.08, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(518, 429)
+shape = SubResource("WorldBoundaryShape2D_b0inm")
+
+[node name="Player" parent="." instance=ExtResource("1_olfst")]
+position = Vector2(507, 1004)
+rotation = 0.0
+scale = Vector2(1.022, 1)
+
+[node name="Platforms" type="Node" parent="."]
+
+[node name="Platform" parent="Platforms" instance=ExtResource("1_f26cr")]
+position = Vector2(713, 945)
+
+[node name="Platform2" parent="Platforms" instance=ExtResource("1_f26cr")]
+position = Vector2(1474, 786)
+
+[node name="Platform6" parent="Platforms" instance=ExtResource("1_f26cr")]
+position = Vector2(2878, 411)
+scale = Vector2(0.28, 1)
+
+[node name="Platform7" parent="Platforms" instance=ExtResource("1_f26cr")]
+position = Vector2(3119, 411)
+scale = Vector2(0.28, 1)
+
+[node name="MovingPlatform" parent="Platforms" instance=ExtResource("2_3smlm")]
+position = Vector2(1093, 873)
+scale = Vector2(0.611949, 0.8071)
+
+[node name="MovingPlatform2" parent="Platforms" instance=ExtResource("2_3smlm")]
+position = Vector2(2158, 587)
+scale = Vector2(0.611949, 0.8071)
+
+[node name="MovingPlatform3" parent="Platforms" instance=ExtResource("2_3smlm")]
+position = Vector2(2517, 467)
+scale = Vector2(0.611949, 0.8071)
+
+[node name="Platform3" parent="Platforms" instance=ExtResource("4_m6ies")]
+position = Vector2(1892, 944)
+
+[node name="Platform4" parent="Platforms" instance=ExtResource("4_m6ies")]
+position = Vector2(1886, 817)
+
+[node name="Platform5" parent="Platforms" instance=ExtResource("4_m6ies")]
+position = Vector2(1884, 698)
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(511, 967)
+
+[node name="Lava" parent="." instance=ExtResource("6_ke4r5")]
+position = Vector2(2883, 1019)
+scale = Vector2(2.6, 1)
+
+[connection signal="life" from="." to="Player" method="_on_main_life"]
+[connection signal="body_entered" from="Lava" to="." method="_on_lava_body_entered"]
