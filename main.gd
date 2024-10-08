@@ -17,4 +17,5 @@ func newGame() -> void:
 
 
 func _on_lava_body_entered(body: Node2D) -> void:
-	newGame()
+	if body.is_in_group("Player"):
+		newGame()

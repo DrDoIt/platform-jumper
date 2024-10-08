@@ -15,9 +15,9 @@ distance = -123.0
 script = ExtResource("1_tvn80")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-offset_left = 4.0
+offset_left = 6.0
 offset_top = 5.0
-offset_right = 3361.0
+offset_right = 3363.0
 offset_bottom = 1133.0
 scale = Vector2(2.08, 1)
 color = Color(0.803922, 0.815686, 0, 0.894118)
@@ -63,23 +63,30 @@ color = Color(0.831373, 0.643137, 0, 1)
 offset_left = 1883.0
 offset_top = 698.0
 offset_right = 2103.0
-offset_bottom = 1037.0
+offset_bottom = 1044.0
 color = Color(0.831373, 0.643137, 0, 1)
 
 [node name="Ground" type="StaticBody2D" parent="."]
 position = Vector2(0, 489)
 
 [node name="ColorRect" type="ColorRect" parent="Ground"]
-offset_left = 3.0
-offset_top = 549.0
-offset_right = 3359.0
-offset_bottom = 644.0
+offset_left = 6.0
+offset_top = 551.0
+offset_right = 3363.0
+offset_bottom = 657.0
 scale = Vector2(2.08, 1)
 color = Color(0.627451, 0.709804, 0, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
 position = Vector2(518, 429)
 shape = SubResource("WorldBoundaryShape2D_b0inm")
+
+[node name="ColorRect2" type="ColorRect" parent="Ground"]
+offset_left = 6.0
+offset_top = 646.0
+offset_right = 6989.0
+offset_bottom = 953.0
+color = Color(0.870588, 0.368627, 0, 1)
 
 [node name="Player" parent="." instance=ExtResource("1_olfst")]
 position = Vector2(507, 1004)
@@ -131,15 +138,13 @@ position = Vector2(1884, 698)
 position = Vector2(511, 967)
 
 [node name="Lava" parent="." instance=ExtResource("6_ke4r5")]
-position = Vector2(2883, 1019)
+position = Vector2(2877, 1020)
 scale = Vector2(2.6, 1)
 
 [node name="Boxes" type="Node" parent="."]
 
 [node name="Box" parent="Boxes" instance=ExtResource("7_gmr24")]
-position = Vector2(610, 993)
-mass = 0.003
-can_sleep = false
+position = Vector2(598, 984)
 
 [node name="Box2" parent="Boxes" instance=ExtResource("7_gmr24")]
 position = Vector2(3796, 946)

@@ -3,7 +3,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ts1fb"]
 size = Vector2(10, 10)
 
-[node name="Lava" type="Area2D"]
+[node name="Lava" type="Area2D" groups=["Hazards"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(136.967, 9.55694)
