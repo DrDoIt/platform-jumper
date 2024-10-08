@@ -1,0 +1,62 @@
+[gd_scene load_steps=5 format=3 uid="uid://btpbemt0lgtr6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hlu6d"]
+size = Vector2(171, 58)
+
+[sub_resource type="Animation" id="Animation_hf3xw"]
+resource_name = "new_animation"
+length = 3.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.966667, 1.96667, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(105, 0), Vector2(105, 0), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_u3lgv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3hven"]
+_data = {
+"RESET": SubResource("Animation_u3lgv"),
+"new_animation": SubResource("Animation_hf3xw")
+}
+
+[node name="Crawler" type="Node2D"]
+
+[node name="Crawler" type="AnimatableBody2D" parent="." groups=["Enemies"]]
+metadata/_edit_group_ = true
+
+[node name="ColorRect" type="ColorRect" parent="Crawler"]
+offset_right = 171.0
+offset_bottom = 58.0
+color = Color(0.913725, 0.4, 0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Crawler"]
+position = Vector2(85.5, 29)
+shape = SubResource("RectangleShape2D_hlu6d")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Crawler"]
+libraries = {
+"": SubResource("AnimationLibrary_3hven")
+}
+autoplay = "new_animation"

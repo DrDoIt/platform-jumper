@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://s4ofifc7f1ba"]
+[gd_scene load_steps=10 format=3 uid="uid://s4ofifc7f1ba"]
 
 [ext_resource type="PackedScene" uid="uid://cllgkinc37fe2" path="res://platform.tscn" id="1_f26cr"]
 [ext_resource type="PackedScene" uid="uid://p763xirwladb" path="res://player.tscn" id="1_olfst"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://ck4csmjiaui7o" path="res://oneWayPlatform.tscn" id="4_m6ies"]
 [ext_resource type="PackedScene" uid="uid://08h728at06ps" path="res://lava.tscn" id="6_ke4r5"]
 [ext_resource type="PackedScene" uid="uid://byjvlehrgoypr" path="res://box.tscn" id="7_gmr24"]
+[ext_resource type="PackedScene" uid="uid://btpbemt0lgtr6" path="res://crawler.tscn" id="8_oek3q"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_b0inm"]
 distance = -123.0
@@ -143,9 +144,6 @@ scale = Vector2(2.6, 1)
 
 [node name="Boxes" type="Node" parent="."]
 
-[node name="Box" parent="Boxes" instance=ExtResource("7_gmr24")]
-position = Vector2(598, 984)
-
 [node name="Box2" parent="Boxes" instance=ExtResource("7_gmr24")]
 position = Vector2(3796, 946)
 
@@ -159,10 +157,14 @@ position = Vector2(3869, 927)
 position = Vector2(3966, 946)
 
 [node name="Sky" type="ColorRect" parent="."]
-offset_left = 1.0
+offset_left = 5.0
 offset_top = -250.0
 offset_right = 6986.0
 offset_bottom = 6.0
+
+[node name="Crawler" parent="." instance=ExtResource("8_oek3q")]
+position = Vector2(1131, 1014)
+scale = Vector2(1.05889, 0.444407)
 
 [connection signal="life" from="." to="Player" method="_on_main_life"]
 [connection signal="body_entered" from="Lava" to="." method="_on_lava_body_entered"]
