@@ -1,7 +1,7 @@
 [gd_scene load_steps=2 format=3 uid="uid://cllgkinc37fe2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_byvqj"]
-size = Vector2(325, 34)
+size = Vector2(325.5, 33)
 
 [node name="Platform" type="AnimatableBody2D"]
 position = Vector2(1, -2)
@@ -14,5 +14,5 @@ offset_bottom = 34.0
 color = Color(0.701961, 0.403922, 0, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(159, 16)
+position = Vector2(163.75, 17.5)
 shape = SubResource("RectangleShape2D_byvqj")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://s4ofifc7f1ba"]
+[gd_scene load_steps=9 format=3 uid="uid://s4ofifc7f1ba"]
 
 [ext_resource type="PackedScene" uid="uid://cllgkinc37fe2" path="res://platform.tscn" id="1_f26cr"]
 [ext_resource type="PackedScene" uid="uid://p763xirwladb" path="res://player.tscn" id="1_olfst"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bgjai3kj4qu8d" path="res://movingPlatform.tscn" id="2_3smlm"]
 [ext_resource type="PackedScene" uid="uid://ck4csmjiaui7o" path="res://oneWayPlatform.tscn" id="4_m6ies"]
 [ext_resource type="PackedScene" uid="uid://08h728at06ps" path="res://lava.tscn" id="6_ke4r5"]
+[ext_resource type="PackedScene" uid="uid://byjvlehrgoypr" path="res://box.tscn" id="7_gmr24"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_b0inm"]
 distance = -123.0
@@ -21,17 +22,62 @@ offset_bottom = 1133.0
 scale = Vector2(2.08, 1)
 color = Color(0.803922, 0.815686, 0, 0.894118)
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="Hills" type="Node" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Hills"]
+offset_left = 714.0
+offset_top = 948.0
+offset_right = 1039.0
+offset_bottom = 1091.0
+color = Color(0.831373, 0.643137, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="Hills"]
+offset_left = 2878.0
+offset_top = 411.0
+offset_right = 2970.0
+offset_bottom = 1042.0
+color = Color(0.831373, 0.643137, 0, 1)
+
+[node name="ColorRect5" type="ColorRect" parent="Hills"]
+offset_left = 3117.0
+offset_top = 411.0
+offset_right = 3209.0
+offset_bottom = 1042.0
+color = Color(0.831373, 0.643137, 0, 1)
+
+[node name="ColorRect6" type="ColorRect" parent="Hills"]
+offset_left = 3353.0
+offset_top = 332.0
+offset_right = 3445.0
+offset_bottom = 1073.0
+color = Color(0.831373, 0.643137, 0, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="Hills"]
+offset_left = 1475.0
+offset_top = 787.0
+offset_right = 1802.0
+offset_bottom = 1048.0
+color = Color(0.831373, 0.643137, 0, 1)
+
+[node name="ColorRect4" type="ColorRect" parent="Hills"]
+offset_left = 1883.0
+offset_top = 698.0
+offset_right = 2103.0
+offset_bottom = 1037.0
+color = Color(0.831373, 0.643137, 0, 1)
+
+[node name="Ground" type="StaticBody2D" parent="."]
 position = Vector2(0, 489)
 
-[node name="ColorRect" type="ColorRect" parent="StaticBody2D"]
+[node name="ColorRect" type="ColorRect" parent="Ground"]
 offset_left = 3.0
 offset_top = 549.0
 offset_right = 3359.0
 offset_bottom = 644.0
 scale = Vector2(2.08, 1)
+color = Color(0.627451, 0.709804, 0, 1)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
 position = Vector2(518, 429)
 shape = SubResource("WorldBoundaryShape2D_b0inm")
 
@@ -56,6 +102,10 @@ scale = Vector2(0.28, 1)
 position = Vector2(3119, 411)
 scale = Vector2(0.28, 1)
 
+[node name="Platform8" parent="Platforms" instance=ExtResource("1_f26cr")]
+position = Vector2(3352, 330)
+scale = Vector2(0.28, 1)
+
 [node name="MovingPlatform" parent="Platforms" instance=ExtResource("2_3smlm")]
 position = Vector2(1093, 873)
 scale = Vector2(0.611949, 0.8071)
@@ -69,7 +119,7 @@ position = Vector2(2517, 467)
 scale = Vector2(0.611949, 0.8071)
 
 [node name="Platform3" parent="Platforms" instance=ExtResource("4_m6ies")]
-position = Vector2(1892, 944)
+position = Vector2(1885, 944)
 
 [node name="Platform4" parent="Platforms" instance=ExtResource("4_m6ies")]
 position = Vector2(1886, 817)
@@ -83,6 +133,31 @@ position = Vector2(511, 967)
 [node name="Lava" parent="." instance=ExtResource("6_ke4r5")]
 position = Vector2(2883, 1019)
 scale = Vector2(2.6, 1)
+
+[node name="Boxes" type="Node" parent="."]
+
+[node name="Box" parent="Boxes" instance=ExtResource("7_gmr24")]
+position = Vector2(610, 993)
+mass = 0.003
+can_sleep = false
+
+[node name="Box2" parent="Boxes" instance=ExtResource("7_gmr24")]
+position = Vector2(3796, 946)
+
+[node name="Box3" parent="Boxes" instance=ExtResource("7_gmr24")]
+position = Vector2(3918, 988)
+
+[node name="Box4" parent="Boxes" instance=ExtResource("7_gmr24")]
+position = Vector2(3869, 927)
+
+[node name="Box5" parent="Boxes" instance=ExtResource("7_gmr24")]
+position = Vector2(3966, 946)
+
+[node name="Sky" type="ColorRect" parent="."]
+offset_left = 1.0
+offset_top = -250.0
+offset_right = 6986.0
+offset_bottom = 6.0
 
 [connection signal="life" from="." to="Player" method="_on_main_life"]
 [connection signal="body_entered" from="Lava" to="." method="_on_lava_body_entered"]
