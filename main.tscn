@@ -92,7 +92,7 @@ color = Color(0.870588, 0.368627, 0, 1)
 [node name="Player" parent="." instance=ExtResource("1_olfst")]
 position = Vector2(507, 1004)
 rotation = 0.0
-scale = Vector2(1.022, 1)
+scale = Vector2(1.022, 0.916667)
 
 [node name="Platforms" type="Node" parent="."]
 
@@ -163,8 +163,9 @@ offset_right = 6986.0
 offset_bottom = 6.0
 
 [node name="Crawler" parent="." instance=ExtResource("8_oek3q")]
-position = Vector2(1131, 1014)
-scale = Vector2(1.05889, 0.444407)
+position = Vector2(1081, 1019)
+scale = Vector2(1.02038, 0.36036)
 
 [connection signal="life" from="." to="Player" method="_on_main_life"]
+[connection signal="hit" from="Player" to="." method="_on_player_hit"]
 [connection signal="body_entered" from="Lava" to="." method="_on_lava_body_entered"]

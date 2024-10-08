@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+signal hit
+
 var screen_size
 
 var life = 0
@@ -48,3 +50,8 @@ func respawn(pos):
 
 func _on_main_life() -> void:
 	life += 1
+
+
+func _on_area_2d_body_entered(body) -> void:
+	if body.is_in_group("Enemies"):
+		hit.emit()
