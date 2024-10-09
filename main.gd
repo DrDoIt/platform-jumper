@@ -1,10 +1,15 @@
 extends Node
 
+
+
 signal life()
+#var songs = ["Intro","Song2"]
+#var nextSong = ""
+#var songNum=0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	$Audio/Intro.play()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -23,3 +28,9 @@ func _on_lava_body_entered(body: Node2D) -> void:
 
 func _on_player_hit() -> void:
 	newGame()
+
+
+
+func _on_soundtrack_finished() -> void:
+	$Audio/Intro.play()
+	#songNum+=1
