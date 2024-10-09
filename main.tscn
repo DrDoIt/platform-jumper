@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://s4ofifc7f1ba"]
+[gd_scene load_steps=11 format=3 uid="uid://s4ofifc7f1ba"]
 
 [ext_resource type="PackedScene" uid="uid://cllgkinc37fe2" path="res://platform.tscn" id="1_f26cr"]
 [ext_resource type="PackedScene" uid="uid://p763xirwladb" path="res://player.tscn" id="1_olfst"]
@@ -11,6 +11,9 @@
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_b0inm"]
 distance = -123.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_mkx3x"]
+distance = 5.99206
 
 [node name="Main" type="Node"]
 script = ExtResource("1_tvn80")
@@ -84,15 +87,26 @@ shape = SubResource("WorldBoundaryShape2D_b0inm")
 
 [node name="ColorRect2" type="ColorRect" parent="Ground"]
 offset_left = 6.0
-offset_top = 646.0
+offset_top = 652.0
 offset_right = 6989.0
 offset_bottom = 953.0
 color = Color(0.870588, 0.368627, 0, 1)
 
+[node name="ColorRect3" type="ColorRect" parent="Ground"]
+offset_left = -184.0
+offset_top = -739.0
+offset_right = 6.0
+offset_bottom = 953.0
+color = Color(0.372549, 0.2, 0, 1)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Ground"]
+rotation = 1.56304
+shape = SubResource("WorldBoundaryShape2D_mkx3x")
+
 [node name="Player" parent="." instance=ExtResource("1_olfst")]
 position = Vector2(507, 1004)
 rotation = 0.0
-scale = Vector2(1.022, 0.916667)
+scale = Vector2(1.43637, 1.28833)
 
 [node name="Platforms" type="Node" parent="."]
 
@@ -162,9 +176,13 @@ offset_top = -250.0
 offset_right = 6986.0
 offset_bottom = 6.0
 
-[node name="Crawler" parent="." instance=ExtResource("8_oek3q")]
-position = Vector2(1081, 1019)
-scale = Vector2(1.02038, 0.36036)
+[node name="Crawler" parent="." groups=["Enemies"] instance=ExtResource("8_oek3q")]
+position = Vector2(1099, 1012)
+scale = Vector2(0.362269, 0.457014)
+
+[node name="Crawler2" parent="." groups=["Enemies"] instance=ExtResource("8_oek3q")]
+position = Vector2(1906, 669)
+scale = Vector2(0.362269, 0.457014)
 
 [connection signal="life" from="." to="Player" method="_on_main_life"]
 [connection signal="hit" from="Player" to="." method="_on_player_hit"]
