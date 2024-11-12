@@ -4,12 +4,15 @@ signal hit
 
 var screen_size
 
-var life = 0
 const PUSH_FORCE = 100
 const MAX_VELOCITY = 150
 const SPEED = 300.0
 const JUMP_VELOCITY = -500.0
+var life = 0
+var attacking = false
+var facing: String
 
+@onready var despawn: Timer = $Despawn
 #func _ready():
 	#screen_size = get_viewport_rect().size
 
@@ -21,16 +24,42 @@ func _physics_process(delta: float) -> void:
 		velocity += gravity
 
 	# Handle jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+	if Input.is_action_just_pressed("Jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction := Input.get_axis("ui_left", "ui_right")
+	# Handle movement
+	
+	var direction := Input.get_axis("MoveLeft", "MoveRight")
 	if direction:
 		velocity.x = direction * SPEED
+		if direction >0:
+			facing = "right"
+			$Direction.position.x = 30
+		if direction <=0:
+			facing = "left"
+			$Direction.position.x = 0
+		
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
+		
+	# Handle Attack
+	if Input.is_action_just_pressed("UseSpell"):
+		if attacking == false:
+			attacking = true
+			$AttackCooldown.start()
+			var MAGIC_MISSILE = preload("res://Abilities/magic_missle.tscn")
+			var missile = MAGIC_MISSILE.instantiate()
+			print(facing)
+			if facing == "right":
+				missile.direction = 1
+				print(missile.direction)
+			if facing == "left":
+				missile.direction = -1
+				print(missile.direction)
+			missile.position = $Direction.global_position
+			get_parent().add_child(missile)
+
+		
 	
 	# Animation
 	$AnimatedSprite2D.play()
@@ -46,12 +75,7 @@ func _physics_process(delta: float) -> void:
 	elif velocity.x != 0:
 		$AnimatedSprite2D.animation = "run"
 		$AnimatedSprite2D.flip_v = false
-		# See the note below about the following boolean assignment.
 		$AnimatedSprite2D.flip_h = velocity.x < 0
-	
-		
-	
-		
 
 	for i in get_slide_collision_count():
 		var collision = get_slide_collision(i)
@@ -79,3 +103,7 @@ func respawn(pos):
 
 func _on_main_life() -> void:
 	life += 1
+
+
+func _on_attack_cooldown_timeout() -> void:
+	attacking = false

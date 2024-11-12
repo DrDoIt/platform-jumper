@@ -1,6 +1,6 @@
-[gd_scene load_steps=65 format=3 uid="uid://cbbyajo5o3ghf"]
+[gd_scene load_steps=66 format=3 uid="uid://cbbyajo5o3ghf"]
 
-[ext_resource type="Script" path="res://Abilities/projectile.gd" id="1_4g724"]
+[ext_resource type="Script" path="res://Abilities/rigid_body_2d.gd" id="1_q58v1"]
 [ext_resource type="Texture2D" uid="uid://g3pi6kpuk1xm" path="res://Art/Spells/3_bluefire_spritesheet.png" id="1_smyea"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7aqvi"]
@@ -438,8 +438,13 @@ animations = [{
 "speed": 60.0
 }]
 
-[node name="MagicMissle" type="Node2D"]
-script = ExtResource("1_4g724")
+[sub_resource type="CircleShape2D" id="CircleShape2D_05mlb"]
+
+[node name="MagicMissile" type="RigidBody2D"]
+collision_layer = 8
+collision_mask = 14
+gravity_scale = 0.0
+script = ExtResource("1_q58v1")
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -447,3 +452,6 @@ position = Vector2(-34, 1)
 rotation = -0.958186
 sprite_frames = SubResource("SpriteFrames_jribg")
 animation = &"MagicMissle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_05mlb")
