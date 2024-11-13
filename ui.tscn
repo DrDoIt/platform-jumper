@@ -12,13 +12,20 @@ subpixel_positioning = 0
 [node name="UI" type="Node2D"]
 script = ExtResource("1_38dy5")
 
-[node name="Lives" type="Label" parent="."]
-offset_left = -1.0
-offset_top = 3.0
-offset_right = 39.0
-offset_bottom = 26.0
+[node name="GridContainer" type="GridContainer" parent="."]
+offset_left = 19.0
+offset_top = 18.0
+offset_right = 59.0
+offset_bottom = 68.0
+
+[node name="Lives" type="Label" parent="GridContainer"]
+layout_mode = 2
 theme = SubResource("Theme_ijets")
 theme_override_fonts/font = SubResource("SystemFont_x578f")
 theme_override_font_sizes/font_size = 60
 text = "lives"
 label_settings = SubResource("LabelSettings_ii0ye")
+
+[node name="XP" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "XP"

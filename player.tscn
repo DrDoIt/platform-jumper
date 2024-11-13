@@ -1,11 +1,10 @@
-[gd_scene load_steps=30 format=3 uid="uid://p763xirwladb"]
+[gd_scene load_steps=29 format=3 uid="uid://p763xirwladb"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_elc4x"]
 [ext_resource type="Texture2D" uid="uid://dxeiv4cg3k251" path="res://Art/Character/Idle/Idle-Sheet.png" id="2_clxf6"]
 [ext_resource type="Texture2D" uid="uid://csg56elo1gw4h" path="res://Art/Character/Run/Run-Sheet.png" id="2_ejy8g"]
 [ext_resource type="Texture2D" uid="uid://7i34nwom52wu" path="res://Art/Character/Jump-End/Jump-End-Sheet.png" id="2_n7uw6"]
 [ext_resource type="Texture2D" uid="uid://dkc78kkyhs1io" path="res://Art/Character/Jump-Start/Jump-Start-Sheet.png" id="3_pdg4h"]
-[ext_resource type="PackedScene" uid="uid://do2e3k5xt8ao5" path="res://ui.tscn" id="3_r54xw"]
 [ext_resource type="Script" path="res://Abilities/player_use_ability_component.gd" id="7_j1rnp"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_smq24"]
@@ -178,6 +177,7 @@ script = ExtResource("1_elc4x")
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 1
 position = Vector2(-32.1182, -42.1926)
 scale = Vector2(1.14809, 1.09441)
 sprite_frames = SubResource("SpriteFrames_gy7cf")
@@ -191,9 +191,6 @@ shape = SubResource("RectangleShape2D_jsaie")
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(-2, 0)
 
-[node name="UI" parent="." instance=ExtResource("3_r54xw")]
-position = Vector2(-387.955, -241.929)
-
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
@@ -205,10 +202,14 @@ script = ExtResource("7_j1rnp")
 
 [node name="Direction" type="Marker2D" parent="."]
 position = Vector2(-3.68486e-06, -9.54484e-12)
-scale = Vector2(1, 1)
 
 [node name="AttackCooldown" type="Timer" parent="."]
 one_shot = true
 
+[node name="ShieldCooldown" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout"]
+[connection signal="timeout" from="ShieldCooldown" to="." method="_on_shield_cooldown_timeout"]

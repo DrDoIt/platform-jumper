@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://s4ofifc7f1ba"]
+[gd_scene load_steps=12 format=3 uid="uid://s4ofifc7f1ba"]
 
 [ext_resource type="PackedScene" uid="uid://cllgkinc37fe2" path="res://platform.tscn" id="1_f26cr"]
 [ext_resource type="PackedScene" uid="uid://p763xirwladb" path="res://player.tscn" id="1_olfst"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://08h728at06ps" path="res://lava.tscn" id="6_ke4r5"]
 [ext_resource type="PackedScene" uid="uid://byjvlehrgoypr" path="res://box.tscn" id="7_gmr24"]
 [ext_resource type="PackedScene" uid="uid://btpbemt0lgtr6" path="res://crawler.tscn" id="8_oek3q"]
+[ext_resource type="PackedScene" uid="uid://do2e3k5xt8ao5" path="res://ui.tscn" id="9_l0r1g"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_b0inm"]
 distance = -123.0
@@ -103,11 +104,6 @@ color = Color(0.372549, 0.2, 0, 1)
 rotation = 1.56304
 shape = SubResource("WorldBoundaryShape2D_mkx3x")
 
-[node name="Player" parent="." instance=ExtResource("1_olfst")]
-position = Vector2(507, 1004)
-rotation = 0.0
-scale = Vector2(1.43637, 1.28833)
-
 [node name="Platforms" type="Node" parent="."]
 
 [node name="Platform" parent="Platforms" instance=ExtResource("1_f26cr")]
@@ -176,14 +172,23 @@ offset_top = -250.0
 offset_right = 6986.0
 offset_bottom = 6.0
 
-[node name="Crawler" parent="." groups=["Enemies"] instance=ExtResource("8_oek3q")]
+[node name="Player" parent="." instance=ExtResource("1_olfst")]
+position = Vector2(507, 1004)
+rotation = 0.0
+scale = Vector2(1.43637, 1.28833)
+
+[node name="Crawler" parent="." instance=ExtResource("8_oek3q")]
 position = Vector2(1099, 1012)
 scale = Vector2(0.362269, 0.457014)
 
-[node name="Crawler2" parent="." groups=["Enemies"] instance=ExtResource("8_oek3q")]
+[node name="Crawler2" parent="." instance=ExtResource("8_oek3q")]
 position = Vector2(1906, 669)
 scale = Vector2(0.362269, 0.457014)
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UI" parent="CanvasLayer" instance=ExtResource("9_l0r1g")]
+
 [connection signal="life" from="." to="Player" method="_on_main_life"]
-[connection signal="hit" from="Player" to="." method="_on_player_hit"]
 [connection signal="body_entered" from="Lava" to="." method="_on_lava_body_entered"]
+[connection signal="hit" from="Player" to="." method="_on_player_hit"]
