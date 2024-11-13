@@ -7,14 +7,18 @@ var screen_size
 const PUSH_FORCE = 100
 const MAX_VELOCITY = 150
 const SPEED = 300.0
-const JUMP_VELOCITY = -500.0
+@export var jump_velocity = -500.0
 
 var life = 0
-var attacking = false
-var shielded = false
+
 var facing: String
+var attacking = false
+
+var shielded = false
 var shield = null
 var shield_pos: Vector2
+
+var boosted = false
 
 enum { MISSILE, SHIELD, BOOST }
 var selectedSpell = MISSILE
@@ -32,7 +36,11 @@ func _physics_process(delta: float) -> void:
 
 	# Handle jump.
 	if Input.is_action_just_pressed("Jump") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
+		velocity.y = jump_velocity
+	if boosted:
+		velocity.y = jump_velocity
+		#position.y = move_toward(position.y, position.y+jump_velocity, 10)
+		
 
 
 	# Handle movement
@@ -77,13 +85,19 @@ func _physics_process(delta: float) -> void:
 					missile.position = $Direction.global_position
 					get_parent().add_child(missile)
 			SHIELD:
-				if not shielded:
+				if !shielded:
 					shielded = true
 					$ShieldCooldown.start()
 					const SHIELD_SCENE = preload("res://shield.tscn")
 					shield = SHIELD_SCENE.instantiate()
 					shield.position = global_position
 					get_parent().add_child(shield)
+			BOOST:
+				if !boosted:
+					$Boost.start()
+					boosted = true
+				
+					#position.y = move_toward(position.y, position.y+100, 20)
 
 
 	# Animations
@@ -94,10 +108,16 @@ func _physics_process(delta: float) -> void:
 		shield_pos = position
 	if velocity.y != 0:
 		if velocity.y >=0:
-			$AnimatedSprite2D.animation = "fall"
+			if not is_on_floor():
+				$AnimatedSprite2D.animation = "boost_fall"
+			else:
+				$AnimatedSprite2D.animation = "fall"
 			shield_pos = position - Vector2(0,1)
 		else:
-			$AnimatedSprite2D.animation = "jump"
+			if not is_on_floor():
+				$AnimatedSprite2D.animation = "boost"
+			else:
+				$AnimatedSprite2D.animation = "jump"
 			shield_pos = position + Vector2(0,1)
 	elif velocity.x != 0:
 		$AnimatedSprite2D.animation = "run"
@@ -145,3 +165,7 @@ func _on_attack_cooldown_timeout() -> void:
 func _on_shield_cooldown_timeout() -> void:
 	shielded = false
 	shield.queue_free()
+
+
+func _on_boost_timeout() -> void:
+	boosted = false
