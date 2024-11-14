@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 Stats="*res://Singletons/Stats.gd"
+SignalBus="*res://Singletons/signal_bus.gd"
 
 [global_group]
 
@@ -71,3 +72,4 @@ SpellSlot3={
 2d_physics/layer_2="Walls"
 2d_physics/layer_3="Enemies"
 2d_physics/layer_4="Projectiles"
+2d_physics/layer_5="Checkpoints"

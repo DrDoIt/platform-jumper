@@ -1,4 +1,6 @@
-extends Node2D
+extends Area2D
+
+signal checkp
 
 
 # Called when the node enters the scene tree for the first time.
@@ -11,13 +13,6 @@ func _process(delta: float) -> void:
 	pass
 
 
-func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body.is_in_group("AttackSpell"):
-		queue_free()
-		Stats.player_mana += 100
-
-
-func _on_weak_spot_body_entered(body: Node2D) -> void:
+func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
-		queue_free()
-		Stats.player_mana += 100
+		checkp.emit()

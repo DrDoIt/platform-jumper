@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://csg56elo1gw4h" path="res://Art/Character/Run/Run-Sheet.png" id="2_ejy8g"]
 [ext_resource type="Texture2D" uid="uid://7i34nwom52wu" path="res://Art/Character/Jump-End/Jump-End-Sheet.png" id="2_n7uw6"]
 [ext_resource type="Texture2D" uid="uid://dkc78kkyhs1io" path="res://Art/Character/Jump-Start/Jump-Start-Sheet.png" id="3_pdg4h"]
-[ext_resource type="Script" path="res://Abilities/player_use_ability_component.gd" id="7_j1rnp"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_eind3"]
 atlas = ExtResource("2_bu36n")
@@ -229,10 +228,17 @@ size = Vector2(37.755, 53.6008)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y3amm"]
 size = Vector2(38.2244, 53.7639)
 
+[sub_resource type="GDScript" id="GDScript_fsmvs"]
+script/source = "class_name PlayerUseAbilityComponent
+extends Node
+
+@export var use_ability_action_name = \"use_ability\"
+"
+
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 rotation = 3.14159
 scale = Vector2(-8.28188, -8.1057)
-collision_mask = 7
+collision_mask = 23
 script = ExtResource("1_elc4x")
 metadata/_edit_group_ = true
 
@@ -258,7 +264,7 @@ position = Vector2(2.2945, 0.850892)
 shape = SubResource("RectangleShape2D_y3amm")
 
 [node name="PlayerUseAbilityComponent" type="Node" parent="."]
-script = ExtResource("7_j1rnp")
+script = SubResource("GDScript_fsmvs")
 
 [node name="Direction" type="Marker2D" parent="."]
 position = Vector2(-3.68486e-06, -9.54484e-12)

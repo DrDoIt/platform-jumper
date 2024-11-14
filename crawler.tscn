@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://btpbemt0lgtr6"]
+[gd_scene load_steps=9 format=3 uid="uid://btpbemt0lgtr6"]
 
 [ext_resource type="Script" path="res://crawler.gd" id="1_634ag"]
 
@@ -49,6 +49,9 @@ size = Vector2(191, 68)
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_q6wv6"]
 a = Vector2(-17, 10)
 b = Vector2(137, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7yo3n"]
+size = Vector2(154, 15)
 
 [node name="Crawler" type="CharacterBody2D" groups=["Enemies"]]
 collision_layer = 4
@@ -103,4 +106,12 @@ autoplay = "new_animation"
 position = Vector2(23, -13)
 shape = SubResource("SegmentShape2D_q6wv6")
 
+[node name="WeakSpot" type="Area2D" parent="Shell"]
+position = Vector2(-14, -14)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shell/WeakSpot"]
+position = Vector2(97, 5.5)
+shape = SubResource("RectangleShape2D_7yo3n")
+
 [connection signal="body_entered" from="Crawler/Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="Shell/WeakSpot" to="." method="_on_weak_spot_body_entered"]

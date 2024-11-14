@@ -19,12 +19,15 @@ var shield = null
 var shield_pos: Vector2
 
 var boosted = false
+var charging = false
 
 enum { MISSILE, SHIELD, BOOST }
 var selectedSpell = MISSILE
 
+
 func _ready() -> void:
 	pass
+
 
 func _physics_process(delta: float) -> void:
 	var state = "rest"
@@ -40,7 +43,6 @@ func _physics_process(delta: float) -> void:
 	if boosted:
 		velocity.y = jump_velocity
 		#position.y = move_toward(position.y, position.y+jump_velocity, 10)
-		
 
 
 	# Handle movement
@@ -55,8 +57,8 @@ func _physics_process(delta: float) -> void:
 			$Direction.position.x = 0
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
-		
-		
+
+
 	# Handle spell selection
 	if Input.is_action_just_pressed("SpellSlot1"):
 		selectedSpell = MISSILE
@@ -66,38 +68,50 @@ func _physics_process(delta: float) -> void:
 		selectedSpell = BOOST
 
 
-	# Handle Attack
+	# Handle spells
 	if Input.is_action_just_pressed("UseSpell"):
-		match selectedSpell:
-			MISSILE:
-				if attacking == false:
-					attacking = true
-					$AttackCooldown.start()
-					var MAGIC_MISSILE = preload("res://Abilities/magic_missle.tscn")
-					var missile = MAGIC_MISSILE.instantiate()
-					print(facing)
-					if facing == "left":
-						missile.direction = -1
-						print(missile.direction)
-					else:
-						missile.direction = 1
-						print(missile.direction)
-					missile.position = $Direction.global_position
-					get_parent().add_child(missile)
-			SHIELD:
-				if !shielded:
-					shielded = true
-					$ShieldCooldown.start()
-					const SHIELD_SCENE = preload("res://shield.tscn")
-					shield = SHIELD_SCENE.instantiate()
-					shield.position = global_position
-					get_parent().add_child(shield)
-			BOOST:
-				if !boosted:
-					$Boost.start()
-					boosted = true
-				
-					#position.y = move_toward(position.y, position.y+100, 20)
+		if Stats.player_mana >0:
+			match selectedSpell:
+				MISSILE:
+					if attacking == false:
+						attacking = true
+						$AttackCooldown.start()
+						var MAGIC_MISSILE = preload("res://Abilities/magic_missle.tscn")
+						var missile = MAGIC_MISSILE.instantiate()
+						print(facing)
+						if facing == "left":
+							missile.direction = -1
+							print(missile.direction)
+						else:
+							missile.direction = 1
+							print(missile.direction)
+						missile.position = $Direction.global_position
+						get_parent().add_child(missile)
+						Stats.player_mana -= 50
+				SHIELD:
+					if !shielded:
+						shielded = true
+						$ShieldCooldown.start()
+						const SHIELD_SCENE = preload("res://shield.tscn")
+						shield = SHIELD_SCENE.instantiate()
+						shield.position = global_position
+						get_parent().add_child(shield)
+						Stats.player_mana -= 50
+				BOOST:
+					if !boosted:
+						$Boost.start()
+						boosted = true
+						Stats.player_mana -= 50
+			
+		else:
+			print("no mana")
+
+	# Charging
+	if charging:
+		if Stats.player_mana <1000:
+			Stats.player_mana = move_toward(Stats.player_mana,1000,20)
+		else:
+			charging = false
 
 
 	# Animations
@@ -118,7 +132,7 @@ func _physics_process(delta: float) -> void:
 				$AnimatedSprite2D.animation = "boost"
 			else:
 				$AnimatedSprite2D.animation = "jump"
-			shield_pos = position + Vector2(0,1)
+			shield_pos = position - Vector2(0,1)
 	elif velocity.x != 0:
 		$AnimatedSprite2D.animation = "run"
 		$AnimatedSprite2D.flip_v = false
@@ -133,14 +147,15 @@ func _physics_process(delta: float) -> void:
 	for i in get_slide_collision_count():
 		var collision = get_slide_collision(i)
 		var collision_box = collision.get_collider()
-		if collision_box.is_in_group("Enemies"):
-			if collision_box.is_in_group("Hurtboxes"):
-				pass
-			else:
-				if !shielded:
-					hit.emit()
-		if collision_box.is_in_group("Boxes") and abs(collision_box.get_linear_velocity().x) < MAX_VELOCITY:
-			collision_box.apply_central_impulse(collision.get_normal() * -PUSH_FORCE)
+		if collision_box:
+			if collision_box.is_in_group("Enemies"):
+				if collision_box.is_in_group("Hurtboxes"):
+					pass
+				else:
+					if !shielded:
+						hit.emit()
+			if collision_box.is_in_group("Boxes") and abs(collision_box.get_linear_velocity().x) < MAX_VELOCITY:
+				collision_box.apply_central_impulse(collision.get_normal() * -PUSH_FORCE)
 	move_and_slide()
 
 
@@ -158,14 +173,18 @@ func _on_main_life() -> void:
 	life += 1
 
 
+# Timers
+
 func _on_attack_cooldown_timeout() -> void:
 	attacking = false
-
-
+	
 func _on_shield_cooldown_timeout() -> void:
 	shielded = false
 	shield.queue_free()
 
-
 func _on_boost_timeout() -> void:
 	boosted = false
+
+
+func _on_checkpoint_checkp() -> void:
+	charging = true
