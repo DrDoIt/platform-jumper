@@ -2,31 +2,42 @@ extends CharacterBody2D
 
 signal hit
 
-var screen_size
+#var screen_size
 
 const PUSH_FORCE = 100
 const MAX_VELOCITY = 150
 const SPEED = 300.0
 @export var jump_velocity = -500.0
 
-var life = 0
+@onready var cpu_particles_2d: CPUParticles2D = $CPUParticles2D
+@onready var cpu_particles_2d_2: CPUParticles2D = $CPUParticles2D2
 
 var facing: String
 var attacking = false
 
+# Boost
+var boost = false
+var boosted = false
+
+# Charging
+var charging = false
+
+# Life
+var life = 0
+var dead = false
+
+# Shield variables
 var shielded = false
 var shield = null
 var shield_pos: Vector2
-
-var boosted = false
-var charging = false
 
 enum { MISSILE, SHIELD, BOOST }
 var selectedSpell = MISSILE
 
 
 func _ready() -> void:
-	pass
+	$CPUParticles2D.emitting = false
+	$CPUParticles2D2.emitting = false
 
 
 func _physics_process(delta: float) -> void:
@@ -40,10 +51,8 @@ func _physics_process(delta: float) -> void:
 	# Handle jump.
 	if Input.is_action_just_pressed("Jump") and is_on_floor():
 		velocity.y = jump_velocity
-	if boosted:
+	if boost:
 		velocity.y = jump_velocity
-		#position.y = move_toward(position.y, position.y+jump_velocity, 10)
-
 
 	# Handle movement
 	var direction := Input.get_axis("MoveLeft", "MoveRight")
@@ -100,9 +109,12 @@ func _physics_process(delta: float) -> void:
 				BOOST:
 					if !boosted:
 						$Boost.start()
+						$BoostCooldown.start()
+						boost = true
 						boosted = true
 						Stats.player_mana -= 50
-			
+						$CPUParticles2D.emitting = true
+						$CPUParticles2D2.emitting = true
 		else:
 			print("no mana")
 
@@ -167,22 +179,33 @@ func _input(event : InputEvent):
 
 func respawn(pos):
 	position = pos
+	dead = false
 
 
 func _on_main_life() -> void:
-	life += 1
+	if !dead:
+		life += 1
+		dead = true
 
 
 # Timers
 
 func _on_attack_cooldown_timeout() -> void:
 	attacking = false
-	
+
+
 func _on_shield_cooldown_timeout() -> void:
 	shielded = false
 	shield.queue_free()
 
+
 func _on_boost_timeout() -> void:
+	boost = false
+	$CPUParticles2D.emitting = false
+	$CPUParticles2D2.emitting = false
+
+
+func _on_boost_cooldown_timeout() -> void:
 	boosted = false
 
 

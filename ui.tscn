@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=4 uid="uid://do2e3k5xt8ao5"]
+[gd_scene load_steps=22 format=4 uid="uid://do2e3k5xt8ao5"]
 
 [ext_resource type="Script" path="res://ui.gd" id="1_38dy5"]
 [ext_resource type="Texture2D" uid="uid://c7eop4llfgjy2" path="res://Art/Spells/bubbleSpell.png" id="2_hjfl8"]
@@ -1360,6 +1360,8 @@ ProgressBar/styles/fill = SubResource("StyleBoxFlat_j28cv")
 
 [sub_resource type="Theme" id="Theme_gyhx1"]
 
+[sub_resource type="Theme" id="Theme_17fls"]
+
 [node name="UI" type="Node2D"]
 texture_filter = 3
 script = ExtResource("1_38dy5")
@@ -1397,42 +1399,47 @@ scale = Vector2(4, 4)
 theme = SubResource("Theme_gyhx1")
 columns = 3
 
-[node name="CenterContainer" type="CenterContainer" parent="GridContainer2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="GridContainer2"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+theme = SubResource("Theme_17fls")
+
+[node name="CenterContainer" type="CenterContainer" parent="GridContainer2/HBoxContainer"]
 layout_mode = 2
 
-[node name="ColorRect" type="ColorRect" parent="GridContainer2/CenterContainer"]
+[node name="ColorRect" type="ColorRect" parent="GridContainer2/HBoxContainer/CenterContainer"]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 color = Color(0, 0.376471, 0, 1)
 
-[node name="Sprite2D" type="Sprite2D" parent="GridContainer2/CenterContainer"]
+[node name="Sprite2D" type="Sprite2D" parent="GridContainer2/HBoxContainer/CenterContainer"]
 texture_filter = 3
-position = Vector2(7.99999, 6.49999)
+position = Vector2(7.99998, 6.49998)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("2_hjfl8")
 
-[node name="CenterContainer2" type="CenterContainer" parent="GridContainer2"]
+[node name="CenterContainer2" type="CenterContainer" parent="GridContainer2/HBoxContainer"]
 layout_mode = 2
 
-[node name="ColorRect2" type="ColorRect" parent="GridContainer2/CenterContainer2"]
+[node name="ColorRect2" type="ColorRect" parent="GridContainer2/HBoxContainer/CenterContainer2"]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 color = Color(0, 0.376471, 0, 1)
 
-[node name="Sprite2D2" type="Sprite2D" parent="GridContainer2/CenterContainer2"]
+[node name="Sprite2D2" type="Sprite2D" parent="GridContainer2/HBoxContainer/CenterContainer2"]
 position = Vector2(7.5, 7.25)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("3_6uid1")
 
-[node name="CenterContainer3" type="CenterContainer" parent="GridContainer2"]
+[node name="CenterContainer3" type="CenterContainer" parent="GridContainer2/HBoxContainer"]
 layout_mode = 2
 
-[node name="ColorRect3" type="ColorRect" parent="GridContainer2/CenterContainer3"]
+[node name="ColorRect3" type="ColorRect" parent="GridContainer2/HBoxContainer/CenterContainer3"]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 color = Color(0, 0.376471, 0, 1)
 
-[node name="Sprite2D3" type="Sprite2D" parent="GridContainer2/CenterContainer3"]
+[node name="Sprite2D3" type="Sprite2D" parent="GridContainer2/HBoxContainer/CenterContainer3"]
 position = Vector2(7.75, 8.25)
 scale = Vector2(0.15, 0.15)
 texture = ExtResource("4_norke")

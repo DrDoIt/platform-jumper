@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://p763xirwladb"]
+[gd_scene load_steps=38 format=3 uid="uid://p763xirwladb"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_elc4x"]
 [ext_resource type="Texture2D" uid="uid://bctdqw36pqdy7" path="res://Art/Character/Jumlp-All/Jump-All-Sheet.png" id="2_bu36n"]
@@ -235,7 +235,12 @@ extends Node
 @export var use_ability_action_name = \"use_ability\"
 "
 
+[sub_resource type="Gradient" id="Gradient_0wls4"]
+offsets = PackedFloat32Array(0, 0.406667)
+colors = PackedColorArray(1, 1, 0, 1, 1, 0.92549, 0, 1)
+
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
+texture_filter = 3
 rotation = 3.14159
 scale = Vector2(-8.28188, -8.1057)
 collision_mask = 23
@@ -280,7 +285,35 @@ one_shot = true
 wait_time = 0.5
 one_shot = true
 
+[node name="BoostCooldown" type="Timer" parent="."]
+wait_time = 2.5
+one_shot = true
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+amount = 10
+explosiveness = 0.19
+emission_shape = 1
+emission_sphere_radius = 22.98
+spread = 180.0
+initial_velocity_max = 30.3
+angular_velocity_max = 290.91
+linear_accel_max = 50.51
+scale_amount_max = 10.0
+
+[node name="CPUParticles2D2" type="CPUParticles2D" parent="."]
+amount = 20
+emission_shape = 1
+emission_sphere_radius = 22.98
+spread = 180.0
+initial_velocity_max = 30.3
+angular_velocity_max = 290.91
+linear_accel_max = 50.51
+color_ramp = SubResource("Gradient_0wls4")
+
+[node name="LifeTimer" type="Timer" parent="."]
+
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout"]
 [connection signal="timeout" from="ShieldCooldown" to="." method="_on_shield_cooldown_timeout"]
 [connection signal="timeout" from="Boost" to="." method="_on_boost_timeout"]
+[connection signal="timeout" from="BoostCooldown" to="." method="_on_boost_cooldown_timeout"]

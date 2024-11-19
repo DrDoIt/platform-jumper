@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://s4ofifc7f1ba"]
+[gd_scene load_steps=14 format=3 uid="uid://s4ofifc7f1ba"]
 
 [ext_resource type="PackedScene" uid="uid://cllgkinc37fe2" path="res://platform.tscn" id="1_f26cr"]
 [ext_resource type="PackedScene" uid="uid://p763xirwladb" path="res://player.tscn" id="1_olfst"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://btpbemt0lgtr6" path="res://crawler.tscn" id="8_oek3q"]
 [ext_resource type="PackedScene" uid="uid://do2e3k5xt8ao5" path="res://ui.tscn" id="9_l0r1g"]
 [ext_resource type="PackedScene" uid="uid://y0j54ot8car6" path="res://checkpoint.tscn" id="10_2gwk4"]
+[ext_resource type="AudioStream" uid="uid://80xmlqd1ktlg" path="res://Art/Solarized.wav" id="11_mo43a"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_b0inm"]
 distance = -123.0
@@ -192,6 +193,9 @@ scale = Vector2(0.362269, 0.457014)
 
 [node name="Checkpoint1" parent="." instance=ExtResource("10_2gwk4")]
 position = Vector2(1998, 589)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_mo43a")
 
 [connection signal="life" from="." to="Player" method="_on_main_life"]
 [connection signal="body_entered" from="Lava" to="." method="_on_lava_body_entered"]
