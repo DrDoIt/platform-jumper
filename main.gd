@@ -43,8 +43,5 @@ func _on_checkpoint_checkpoint_achieved(delta) -> void:
 	Stats.player_mana = move_toward(Stats.player_mana,1000,1000)
 
 
-
-
-
 func _on_checkpoint_checkp() -> void:
 	spawnPoint = CHECKPOINT1

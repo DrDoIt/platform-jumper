@@ -36,7 +36,7 @@ func _process(delta: float) -> void:
 	elif player.selectedSpell == player.BOOST:
 		highlight(spellSlot3)
 		darken(spellSlot1,spellSlot2)
-	
+	# TODO Fix UI colors
 func highlight(cell):
 	cell.color = 50
 	

@@ -1,6 +1,6 @@
 extends RigidBody2D
 
-@export var speed = 400
+@export var speed = 600
 @export var direction:int
 var velocity:int
 

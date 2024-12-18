@@ -228,19 +228,15 @@ size = Vector2(37.755, 53.6008)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y3amm"]
 size = Vector2(38.2244, 53.7639)
 
-[sub_resource type="GDScript" id="GDScript_fsmvs"]
-script/source = "class_name PlayerUseAbilityComponent
-extends Node
-
-@export var use_ability_action_name = \"use_ability\"
-"
+[sub_resource type="Gradient" id="Gradient_o46xj"]
+colors = PackedColorArray(0.996078, 0, 0, 1, 0, 0.843137, 1, 1)
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
+texture_filter = 3
 rotation = 3.14159
 scale = Vector2(-8.28188, -8.1057)
 collision_mask = 23
 script = ExtResource("1_elc4x")
-metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 1
@@ -263,9 +259,6 @@ position = Vector2(-2, 0)
 position = Vector2(2.2945, 0.850892)
 shape = SubResource("RectangleShape2D_y3amm")
 
-[node name="PlayerUseAbilityComponent" type="Node" parent="."]
-script = SubResource("GDScript_fsmvs")
-
 [node name="Direction" type="Marker2D" parent="."]
 position = Vector2(-3.68486e-06, -9.54484e-12)
 
@@ -279,6 +272,28 @@ one_shot = true
 [node name="Boost" type="Timer" parent="."]
 wait_time = 0.5
 one_shot = true
+
+[node name="BoostParts" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 20
+emission_shape = 1
+emission_sphere_radius = 13.93
+direction = Vector2(10, 0)
+spread = 62.85
+scale_amount_min = 3.0
+scale_amount_max = 5.0
+color_ramp = SubResource("Gradient_o46xj")
+
+[node name="FallingLines" type="CPUParticles2D" parent="."]
+position = Vector2(-2.17339, -13.324)
+emitting = false
+amount = 10
+lifetime = 0.5
+emission_shape = 3
+emission_rect_extents = Vector2(20, 1)
+gravity = Vector2(0, -100)
+scale_amount_min = 2.0
+scale_amount_max = 2.0
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout"]

@@ -6,20 +6,28 @@ var screen_size
 
 const PUSH_FORCE = 100
 const MAX_VELOCITY = 150
-const SPEED = 300.0
 @export var jump_velocity = -500.0
 
+# Speed and Dash
+var speed  = 300.0
+var dashing = false
+
+# Player Life
 var life = 0
 
+# Diraction and Attacking
 var facing: String
 var attacking = false
 
+# Shielding
 var shielded = false
 var shield = null
 var shield_pos: Vector2
 
+# Boost
 var boosted = false
 var charging = false
+var landed = true
 
 enum { MISSILE, SHIELD, BOOST }
 var selectedSpell = MISSILE
@@ -31,24 +39,37 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	var state = "rest"
+
 	# Add the gravity.
 	var gravity = get_gravity() * delta
 	if not is_on_floor():
 		velocity += gravity
+	if is_on_floor():
+		landed = true
 
 
 	# Handle jump.
+	if Input.is_action_pressed("Run") and is_on_floor():
+		speed = 500
+		dashing = true
+	if Input.is_action_just_released("Run"):
+		speed = 300
+		dashing = false
+	
 	if Input.is_action_just_pressed("Jump") and is_on_floor():
-		velocity.y = jump_velocity
+		if dashing:
+			velocity.y = jump_velocity * 1.2
+		else:
+			velocity.y = jump_velocity
+		print(velocity.y)
 	if boosted:
 		velocity.y = jump_velocity
-		#position.y = move_toward(position.y, position.y+jump_velocity, 10)
 
 
 	# Handle movement
 	var direction := Input.get_axis("MoveLeft", "MoveRight")
 	if direction:
-		velocity.x = direction * SPEED
+		velocity.x = direction * speed
 		if direction >0:
 			facing = "right"
 			$Direction.position.x = 30
@@ -56,7 +77,7 @@ func _physics_process(delta: float) -> void:
 			facing = "left"
 			$Direction.position.x = 0
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
+		velocity.x = move_toward(velocity.x, 0, speed)
 
 
 	# Handle spell selection
@@ -92,7 +113,7 @@ func _physics_process(delta: float) -> void:
 					if !shielded:
 						shielded = true
 						$ShieldCooldown.start()
-						const SHIELD_SCENE = preload("res://shield.tscn")
+						const SHIELD_SCENE = preload("res://Abilities/shield.tscn")
 						shield = SHIELD_SCENE.instantiate()
 						shield.position = global_position
 						get_parent().add_child(shield)
@@ -102,7 +123,9 @@ func _physics_process(delta: float) -> void:
 						$Boost.start()
 						boosted = true
 						Stats.player_mana -= 50
-			
+						$BoostParts.emitting = true
+						landed = false
+						
 		else:
 			print("no mana")
 
@@ -141,6 +164,10 @@ func _physics_process(delta: float) -> void:
 			shield_pos = position + Vector2(30,0)
 		if velocity.x < 0:
 			shield_pos = position - Vector2(0,0)
+	if !landed and velocity.y>0:
+		$FallingLines.emitting = true
+	else:
+		$FallingLines.emitting = false
 
 
 	# Collisions
@@ -162,7 +189,6 @@ func _physics_process(delta: float) -> void:
 func _input(event : InputEvent):
 	if(event.is_action_pressed("ui_down") && is_on_floor()):
 		position.y += 1
-	#position = position.clamp(Vector2.ZERO, screen_size)
 
 
 func respawn(pos):
@@ -174,16 +200,18 @@ func _on_main_life() -> void:
 
 
 # Timers
-
 func _on_attack_cooldown_timeout() -> void:
 	attacking = false
-	
+
+
 func _on_shield_cooldown_timeout() -> void:
 	shielded = false
 	shield.queue_free()
 
+
 func _on_boost_timeout() -> void:
 	boosted = false
+	$BoostParts.emitting = false
 
 
 func _on_checkpoint_checkp() -> void:
